@@ -1,0 +1,449 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0e1512">
+<title>🏔️ Banff Trip · Sept 26 – Oct 4</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🏔️%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --gold:#e8b04b; --gold-soft:#f4d18a;
+    --teal:#3fb6a8; --teal-soft:#7fd6cc;
+    --pine:#4f9d69; --berry:#d9756b;
+    --radius-xl:28px; --radius-lg:22px; --radius-md:16px; --radius-sm:12px;
+    --shadow:0 10px 30px rgba(0,0,0,.35);
+    --ease:cubic-bezier(.22,1,.36,1);
+  }
+  html[data-theme="dark"]{
+    --bg:#0e1512; --bg-grad1:#12201b; --bg-grad2:#0c1411;
+    --surface:#17211d; --surface-2:#1e2a25; --surface-3:#243029;
+    --text:#eef3f0; --text-dim:#9db0a7; --text-faint:#6f817a;
+    --border:rgba(255,255,255,.08); --border-strong:rgba(255,255,255,.14);
+    --chip:#22302a;
+  }
+  html[data-theme="light"]{
+    --bg:#f4f1e9; --bg-grad1:#eef4ee; --bg-grad2:#f6f2e8;
+    --surface:#ffffff; --surface-2:#f6f6f0; --surface-3:#eef0e8;
+    --text:#1e2a25; --text-dim:#5a6b63; --text-faint:#8a978f;
+    --border:rgba(0,0,0,.08); --border-strong:rgba(0,0,0,.14);
+    --chip:#eef2ec; --shadow:0 10px 30px rgba(60,70,60,.12);
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{
+    margin:0; font-family:'Inter',system-ui,sans-serif; color:var(--text);
+    background:
+      radial-gradient(1200px 600px at 80% -10%, var(--bg-grad1), transparent 60%),
+      radial-gradient(1000px 500px at -10% 10%, var(--bg-grad2), transparent 55%),
+      var(--bg);
+    min-height:100vh; line-height:1.5;
+    padding-bottom:calc(env(safe-area-inset-bottom) + 40px);
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.display{font-family:'Fredoka',sans-serif;font-weight:600;letter-spacing:.2px}
+  a{color:var(--teal-soft)}
+  .wrap{max-width:820px;margin:0 auto;padding:0 16px}
+
+  /* ===== Banner ===== */
+  .banner{
+    position:relative; overflow:hidden; margin:14px 0 8px;
+    border-radius:var(--radius-xl); border:1px solid var(--border);
+    background:linear-gradient(135deg, rgba(63,182,168,.16), rgba(232,176,75,.14));
+    box-shadow:var(--shadow);
+  }
+  .banner .mountains{position:absolute;inset:auto 0 -1px 0;width:100%;height:80px;opacity:.5}
+  .banner-inner{position:relative;padding:20px 20px 26px}
+  .kicker{font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;color:var(--text-dim);font-weight:600}
+  .banner h1{margin:.15em 0 .1em;font-size:clamp(1.5rem,6vw,2.2rem);line-height:1.05;overflow-wrap:anywhere}
+  .banner .sub{color:var(--text-dim);font-size:.95rem}
+  .countdown{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
+  .cd-cell{
+    background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);
+    padding:10px 12px;min-width:64px;text-align:center;backdrop-filter:blur(6px)
+  }
+  .cd-num{font-family:'Fredoka';font-size:1.7rem;font-weight:700;line-height:1;color:var(--gold-soft)}
+  .cd-lbl{font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text-faint);margin-top:4px}
+  .cd-msg{margin-top:14px;font-family:'Fredoka';font-size:1.1rem;color:var(--teal-soft)}
+  .wx-now{
+    display:inline-flex;align-items:center;gap:8px;margin-top:14px;
+    background:var(--surface);border:1px solid var(--border);border-radius:999px;
+    padding:7px 14px;font-size:.9rem;font-weight:500
+  }
+  .wx-now .emoji{font-size:1.2rem}
+
+  .topbar{display:flex;justify-content:space-between;align-items:center;gap:10px;padding-top:14px}
+  .brand{font-family:'Fredoka';font-weight:600;font-size:1.05rem;display:flex;align-items:center;gap:8px}
+  .toggle{
+    border:1px solid var(--border);background:var(--surface);color:var(--text);
+    border-radius:999px;padding:8px 12px;font-size:1rem;cursor:pointer;transition:transform .2s var(--ease)
+  }
+  .toggle:active{transform:scale(.9)}
+
+  /* ===== Day tabs ===== */
+  .tabs{
+    position:sticky;top:0;z-index:20;margin:6px -16px 0;padding:12px 16px 10px;
+    display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;
+    -webkit-overflow-scrolling:touch;
+    background:linear-gradient(var(--bg), color-mix(in srgb, var(--bg) 82%, transparent));
+    backdrop-filter:blur(10px);
+  }
+  .tabs::-webkit-scrollbar{display:none}
+  .tab{
+    flex:0 0 auto;border:1px solid var(--border);background:var(--surface);
+    border-radius:999px;padding:9px 15px;cursor:pointer;transition:all .25s var(--ease);
+    text-align:center;line-height:1.15;color:var(--text-dim)
+  }
+  .tab .dow{font-family:'Fredoka';font-weight:600;font-size:.9rem;display:block;color:var(--text)}
+  .tab .dt{font-size:.68rem;color:var(--text-faint)}
+  .tab.active{background:linear-gradient(135deg,var(--teal),var(--pine));border-color:transparent;transform:translateY(-1px);box-shadow:0 6px 16px rgba(63,182,168,.35)}
+  .tab.active .dow,.tab.active .dt{color:#08130f}
+  .tab.today::after{content:"•";color:var(--gold);margin-left:5px}
+
+  /* ===== Day view ===== */
+  .day{padding-top:18px;animation:rise .5s var(--ease) both}
+  @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  .day-head{
+    display:flex;align-items:flex-start;justify-content:space-between;gap:14px;
+    background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);
+    padding:18px 18px;box-shadow:var(--shadow)
+  }
+  .day-head .emoji{font-size:2.2rem;line-height:1}
+  .day-head>div:first-child{min-width:0}
+  .day-head h2{margin:.1em 0 .15em;font-size:1.35rem;overflow-wrap:anywhere}
+  .day-meta{color:var(--text-dim);font-size:.85rem;font-weight:600;letter-spacing:.04em}
+  .wx-day{flex:0 0 auto;text-align:center;min-width:78px;background:var(--chip);border:1px solid var(--border);border-radius:var(--radius-md);padding:10px 8px}
+  .wx-day .em{font-size:1.5rem;line-height:1}
+  .wx-day .hi{font-family:'Fredoka';font-weight:600;font-size:1rem;margin-top:2px}
+  .wx-day .lo{color:var(--text-faint);font-size:.78rem}
+  .wx-day .pop{color:var(--teal-soft);font-size:.7rem;margin-top:3px}
+  .wx-day.pending .em{opacity:.6}
+  .wx-day .soon{font-size:.62rem;color:var(--text-faint);line-height:1.25;margin-top:2px}
+
+  /* timeline */
+  .timeline{margin-top:16px;position:relative;padding-left:10px}
+  .item{
+    position:relative;display:flex;gap:14px;padding:2px 0 18px;
+    animation:rise .5s var(--ease) both
+  }
+  .item::before{content:"";position:absolute;left:23px;top:44px;bottom:-4px;width:2px;background:var(--border)}
+  .item:last-child::before{display:none}
+  .ic{
+    flex:0 0 46px;width:46px;height:46px;border-radius:14px;display:grid;place-items:center;
+    font-size:1.35rem;background:var(--surface-2);border:1px solid var(--border);z-index:1
+  }
+  .item.tip .ic{background:rgba(232,176,75,.16);border-color:rgba(232,176,75,.4)}
+  .item.warning .ic{background:rgba(217,117,107,.16);border-color:rgba(217,117,107,.45)}
+  .item.decision .ic{background:rgba(63,182,168,.16);border-color:rgba(63,182,168,.4)}
+  .body{flex:1;min-width:0;padding-top:2px}
+  .time{font-family:'Fredoka';font-weight:600;color:var(--gold-soft);font-size:.9rem}
+  .item.tip .time{color:var(--gold-soft)}
+  .ttl{font-weight:600;font-size:1.02rem;margin:1px 0}
+  .desc{color:var(--text-dim);font-size:.9rem;margin-top:3px}
+  .desc em{color:var(--text-faint);font-style:italic}
+  .pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+  .pill{background:var(--chip);border:1px solid var(--border);border-radius:999px;padding:4px 11px;font-size:.78rem;color:var(--text-dim);font-weight:500}
+  .pill.b{color:var(--gold-soft)}
+  .trail{
+    display:inline-flex;align-items:center;gap:6px;margin-top:9px;text-decoration:none;
+    background:rgba(79,157,105,.16);border:1px solid rgba(79,157,105,.4);color:var(--teal-soft);
+    border-radius:999px;padding:5px 13px;font-size:.82rem;font-weight:600;transition:transform .2s var(--ease)
+  }
+  .trail:active{transform:scale(.96)}
+
+  .navrow{display:flex;justify-content:space-between;gap:12px;margin-top:6px}
+  .navbtn{
+    flex:1;border:1px solid var(--border);background:var(--surface);color:var(--text);
+    border-radius:var(--radius-md);padding:13px;cursor:pointer;font-family:'Fredoka';font-weight:500;
+    font-size:.95rem;transition:all .2s var(--ease);display:flex;align-items:center;justify-content:center;gap:8px
+  }
+  .navbtn:active{transform:scale(.97)}
+  .navbtn:disabled{opacity:.35;cursor:default}
+  .navbtn .mini{color:var(--text-faint);font-family:'Inter';font-size:.75rem;font-weight:500}
+
+  footer{text-align:center;color:var(--text-faint);font-size:.8rem;margin-top:30px;padding:0 16px}
+  footer a{color:var(--text-faint)}
+  .progress{color:var(--text-dim);font-size:.8rem;text-align:center;margin-top:16px;font-weight:600;letter-spacing:.04em}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="brand">🏔️ Banff &amp; Beyond</div>
+    <button class="toggle" id="themeToggle" title="Toggle theme" aria-label="Toggle theme">🌙</button>
+  </div>
+
+  <section class="banner">
+    <div class="banner-inner">
+      <div class="kicker">Rocky Mountain Road Trip</div>
+      <h1>9 days in the Canadian Rockies</h1>
+      <div class="sub">Sept 26 – Oct 4, 2026 · basecamp: Harvie Heights 🏕️</div>
+      <div class="countdown" id="countdown"></div>
+      <div class="cd-msg" id="cdMsg"></div>
+      <div class="wx-now" id="wxNow"><span class="emoji">📡</span><span>Fetching mountain weather…</span></div>
+    </div>
+    <svg class="mountains" viewBox="0 0 1200 120" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0,120 L0,70 L180,20 L320,80 L470,30 L640,95 L780,40 L940,90 L1080,35 L1200,80 L1200,120 Z" fill="var(--pine)" opacity=".35"/>
+      <path d="M0,120 L0,95 L160,55 L300,100 L460,60 L620,110 L800,70 L980,105 L1120,65 L1200,100 L1200,120 Z" fill="var(--teal)" opacity=".3"/>
+    </svg>
+  </section>
+
+  <nav class="tabs" id="tabs"></nav>
+  <main id="dayView"></main>
+
+  <div class="navrow">
+    <button class="navbtn" id="prevBtn">‹ <span><span class="pdow"></span><br><span class="mini pdate"></span></span></button>
+    <button class="navbtn" id="nextBtn"><span><span class="ndow"></span><br><span class="mini ndate"></span></span> ›</button>
+  </div>
+  <div class="progress" id="progress"></div>
+
+  <footer>
+    Built with 🥾 &amp; ☕ for the mountains · Weather by <a href="https://open-meteo.com" target="_blank" rel="noopener">Open-Meteo</a><br>
+    <a href="/PPTGenerator/SMONGenerator.html">🛠️ SMON tool</a>
+  </footer>
+</div>
+
+<script>
+// ---------- Trip data ----------
+const TRIP = [
+  { dow:"SAT", date:"Sept 26", iso:"2026-09-26", emoji:"🛬", title:"Arrival → Harvie Heights → Canmore",
+    loc:{name:"Canmore", lat:51.089, lon:-115.359},
+    items:[
+      {kind:"drive", title:"Calgary Airport → Harvie Heights", dur:"1h 15–30m"},
+      {kind:"shop", title:"Royal Indian Supermarket & Kitchen, Calgary", desc:"Stock up on breakfast + hiking supplies for the next few days."},
+      {kind:"walk", title:"Wander downtown Canmore"},
+      {kind:"hike", title:"Policeman's Creek Boardwalk", desc:"Only if we've still got legs left.", dist:"2.6 mi", dur:"1–1.5h", trail:"https://www.alltrails.com/trail/canada/alberta/policemans-creek-boardwalk-trail"},
+      {kind:"cafe", title:"Eclipse Coffee Roasters", desc:"Railway Ave location, if we need a caffeine hit."},
+      {kind:"food", time:"Dinner", title:"Rocky Mountain Flatbread Co."},
+    ]},
+  { dow:"SUN", date:"Sept 27", iso:"2026-09-27", emoji:"💧", title:"Johnston Canyon → Banff",
+    loc:{name:"Banff", lat:51.178, lon:-115.571},
+    items:[
+      {kind:"wake", time:"08:30", title:"Leave Harvie Heights", desc:"After breakfast at home."},
+      {kind:"drive", title:"→ Johnston Canyon", dur:"~30 min"},
+      {kind:"hike", time:"09:00", title:"Johnston Canyon — Lower + Upper Falls", desc:"Skip the Ink Pots, it makes the day too long.", dist:"3.5 mi", dur:"2–2.5h", trail:"https://www.alltrails.com/trail/canada/alberta/johnston-canyon-to-upper-falls"},
+      {kind:"tip", title:"Get here before 9am", desc:"Later than 9 = crowds. Not recommended. Hungry on site? Blackswift Bistro — but it's overpriced & mediocre."},
+      {kind:"drive", time:"11:30", title:"→ Banff", dur:"~25 min"},
+      {kind:"food", time:"12:00–14:00", title:"Lunch + Banff Avenue", desc:"The Old Spaghetti Factory or Whitebark Cafe. Walk the strip."},
+      {kind:"hike", time:"14:00", title:"Bow Falls Viewpoint", desc:"Very easy stroll.", dist:"1.7 mi", dur:"30–45m", trail:"https://www.alltrails.com/trail/canada/alberta/bow-falls-viewpoint"},
+      {kind:"activity", time:"15:00–17:00", title:"Wander Banff / chill"},
+      {kind:"food", time:"Dinner", title:"The Bison Restaurant & Terrace", desc:"Pricey — or keep it casual at Three Bears Brewery & Restaurant."},
+      {kind:"drive", time:"~18:30", title:"Back to Harvie Heights", dur:"~20 min"},
+    ]},
+  { dow:"MON", date:"Sept 28", iso:"2026-09-28", emoji:"🚡", title:"Banff + Gondola",
+    loc:{name:"Banff", lat:51.178, lon:-115.571},
+    items:[
+      {kind:"hike", time:"09:30–12:00", title:"Tunnel Mountain Summit", dist:"2.9 mi", dur:"1.5–2h", trail:"https://www.alltrails.com/trail/canada/alberta/tunnel-mountain-summit"},
+      {kind:"home", time:"12:30", title:"Back to the Airbnb + lunch"},
+      {kind:"drive", time:"~15:30", title:"Head to Banff Gondola"},
+      {kind:"warning", title:"Gondola parking is limited", desc:"Figure this out ahead of time. #TODO"},
+      {kind:"gondola", time:"16:00–18:30", title:"Banff Gondola", desc:"Ride up → summit boardwalk → viewpoints → soak in the mountains."},
+      {kind:"food", time:"Dinner", title:"Mumbai Local Indian Cuisine"},
+    ]},
+  { dow:"TUE", date:"Sept 29", iso:"2026-09-29", emoji:"🛣️", title:"Icefields Parkway Road Trip",
+    loc:{name:"Columbia Icefield", lat:52.19, lon:-117.22},
+    items:[
+      {kind:"wake", time:"~08:30", title:"Leave the Airbnb"},
+      {kind:"view", title:"Stop 1 — Bow Lake", desc:"~09:15. Short walk around the lake & viewpoints. Map to Crowfoot Glacier Viewpoint."},
+      {kind:"hike", time:"10:00–11:00", title:"Stop 2 — Peyto Lake Panorama", dist:"1.6 mi", dur:"0.5–1h", trail:"https://www.alltrails.com/trail/canada/alberta/peyto-lake-panorama-overlook"},
+      {kind:"stop", time:"~12:00", title:"Stop 3 — Saskatchewan River Crossing", desc:"Lunch / fuel / bathroom at The Crossing gas station. Bring food from Canmore. Map to Howse Pass Viewpoint."},
+      {kind:"view", time:"13:30–15:00", title:"Stop 4 — Columbia Icefield", desc:"See the Athabasca Glacier. The Skywalk is $49 CAD per person."},
+      {kind:"drive", time:"~15:00", title:"Turn around → Harvie Heights", dur:"2.5–3h + stops"},
+      {kind:"food", time:"18:00–19:00", title:"Dinner in Canmore", desc:"The Grizzly Paw Pub — casual."},
+      {kind:"tip", title:"Check conditions that morning", desc:"Parks Canada road/trail conditions for snow before you commit."},
+    ]},
+  { dow:"WED", date:"Sept 30", iso:"2026-09-30", emoji:"🌲", title:"Yoho National Park",
+    loc:{name:"Emerald Lake", lat:51.443, lon:-116.528},
+    items:[
+      {kind:"drive", time:"08:00", title:"Harvie Heights → Emerald Lake", dur:"~1h"},
+      {kind:"hike", time:"09:00", title:"Emerald Lake Loop", dist:"3.3 mi", dur:"~1.5h", trail:"https://www.alltrails.com/trail/canada/british-columbia/emerald-lake-loop"},
+      {kind:"drive", time:"11:00", title:"→ Takakkaw Falls", dur:"~30 min"},
+      {kind:"hike", title:"Takakkaw Falls Trail", dist:"0.9 mi", dur:"~45m", trail:"https://www.alltrails.com/trail/canada/british-columbia/takakkaw-falls-trail"},
+      {kind:"food", title:"Lunch — Yoho Corner Store", desc:"In Field, BC."},
+      {kind:"drive", time:"13:30–14:00", title:"Start back → Harvie Heights", dur:"~1h 15"},
+      {kind:"cafe", time:"~15:30", title:"Canmore coffee", desc:"ÉpiCanmore for a pastry, or Eclipse Coffee Roasters."},
+      {kind:"food", time:"Dinner", title:"Ramen Arashi, Canmore", desc:"Keep it easy."},
+    ]},
+  { dow:"THU", date:"Oct 1", iso:"2026-10-01", emoji:"🧘", title:"Flex / Canmore Day",
+    loc:{name:"Canmore", lat:51.089, lon:-115.359},
+    items:[
+      {kind:"decision", title:"Weather buffer day", desc:"Icefields Parkway sucked on the 29th? Do it today. Yoho sucked? Do Yoho today."},
+      {kind:"cafe", time:"09:00", title:"Canmore breakfast", desc:"The Summit Cafe — known for breakfast & coffee."},
+      {kind:"hike", title:"Grassi Lakes", dist:"2.2 mi", dur:"~2h", trail:"https://www.alltrails.com/trail/canada/alberta/grassi-lake-trail"},
+      {kind:"activity", title:"Rest in Canmore or Banff", desc:"Cascade of Time Garden, Bow Falls Viewpoint, or Mount Norquay Lookout."},
+    ]},
+  { dow:"FRI", date:"Oct 2", iso:"2026-10-02", emoji:"🛶", title:"Lake Minnewanka / Rest",
+    loc:{name:"Lake Minnewanka", lat:51.234, lon:-115.480},
+    items:[
+      {kind:"drive", time:"09:00", title:"Leave Harvie Heights", desc:"Banff → Lake Minnewanka Scenic Drive."},
+      {kind:"view", title:"Lakeside wander", desc:"Walk the shore & viewpoints. Also Two Jack Lake and Johnson Lake. No major hike."},
+      {kind:"food", time:"12:30", title:"Lunch in Banff", desc:"Then spend the afternoon wandering. Another hike if there's interest."},
+      {kind:"food", time:"~17:00", title:"Early dinner — Crazyweed Kitchen"},
+    ]},
+  { dow:"SAT", date:"Oct 3", iso:"2026-10-03", emoji:"🍁", title:"Lake Louise + Moraine + Larch Valley",
+    loc:{name:"Lake Louise", lat:51.417, lon:-116.217},
+    items:[
+      {kind:"wake", time:"05:45", title:"Wake up", desc:"Yes, really. Early wake up. 😴"},
+      {kind:"drive", time:"06:15", title:"→ Lake Louise Park & Ride", dur:"~45 min"},
+      {kind:"warning", time:"07:00", title:"Park at the Park & Ride — 1 Whitehorn Road", desc:"Don't try the Lake Louise lakeshore lot. Shuttle-reservation holders use the Park & Ride; the lakeshore is extremely limited."},
+      {kind:"activity", time:"07:15–07:30", title:"Shuttle to Lake Louise"},
+      {kind:"hike", time:"08:00", title:"Lake Louise Lakeshore", desc:"No need for the whole trail — just walk the lake for the views.", dist:"2.9 mi", dur:"1.5h", trail:"https://www.alltrails.com/trail/canada/alberta/lake-louise-lakeshore"},
+      {kind:"activity", time:"09:30–10:00", title:"Lake Connector → Moraine Lake", desc:"Every 30 min, 7am–6pm, included with your shuttle. First-come, first-served."},
+      {kind:"view", time:"~10:30", title:"Moraine Lake", desc:"Rockpile viewpoint + shoreline."},
+      {kind:"decision", title:"Are conditions good?", desc:"YES → Larch Valley (3–4h). Best hike of the trip — dates are near-perfect for fall larch colors. Snowy/icy/bad visibility or just not feeling it? NO NEED TO FORCE IT — enjoy Moraine and head back.", trail:"https://www.alltrails.com/trail/canada/alberta/larch-valley-trail"},
+      {kind:"tip", title:"Larches not yellow yet?", desc:"Do the Big Beehive instead: Lake Louise → Mirror Lake → Lake Agnes → Tea House → Big Beehive.", trail:"https://www.alltrails.com/trail/canada/alberta/the-big-beehive-trail"},
+      {kind:"warning", time:"15:00–16:00", title:"Watch the last shuttles", desc:"Connector's last run from Moraine is 6pm; last shuttle back to Park & Ride is 7:30pm."},
+      {kind:"drive", time:"17:00–18:00", title:"Park & Ride → Harvie Heights", dur:"~45 min"},
+      {kind:"food", time:"Dinner", title:"Something easy in Canmore"},
+    ]},
+  { dow:"SUN", date:"Oct 4", iso:"2026-10-04", emoji:"✈️", title:"Go Home",
+    loc:{name:"Calgary", lat:51.045, lon:-114.057},
+    items:[
+      {kind:"plane", title:"Fly home", desc:"No itinerary. Just memories (and probably sore legs)."},
+    ]},
+];
+
+const ICONS={drive:"🚗",hike:"🥾",food:"🍽️",cafe:"☕",shop:"🛒",walk:"🚶",view:"🏔️",activity:"✨",tip:"💡",warning:"⚠️",decision:"🤔",gondola:"🚡",wake:"⏰",home:"🏠",plane:"✈️",stop:"⛽",lake:"🏞️"};
+const TRIP_START = new Date("2026-09-26T00:00:00-06:00");
+let active = 0;
+
+// ---------- Weather ----------
+function wmo(code){
+  const m={0:["☀️","Clear"],1:["🌤️","Mostly clear"],2:["⛅","Partly cloudy"],3:["☁️","Overcast"],
+    45:["🌫️","Fog"],48:["🌫️","Rime fog"],51:["🌦️","Light drizzle"],53:["🌦️","Drizzle"],55:["🌦️","Heavy drizzle"],
+    56:["🌧️","Freezing drizzle"],57:["🌧️","Freezing drizzle"],61:["🌧️","Light rain"],63:["🌧️","Rain"],65:["🌧️","Heavy rain"],
+    66:["🌧️","Freezing rain"],67:["🌧️","Freezing rain"],71:["🌨️","Light snow"],73:["🌨️","Snow"],75:["❄️","Heavy snow"],
+    77:["🌨️","Snow grains"],80:["🌦️","Showers"],81:["🌦️","Showers"],82:["⛈️","Heavy showers"],85:["🌨️","Snow showers"],
+    86:["❄️","Snow showers"],95:["⛈️","Thunderstorm"],96:["⛈️","Storm + hail"],99:["⛈️","Storm + hail"]};
+  return m[code]||["🌡️","—"];
+}
+async function loadWeather(){
+  const lats=TRIP.map(d=>d.loc.lat).join(",");
+  const lons=TRIP.map(d=>d.loc.lon).join(",");
+  const url=`https://api.open-meteo.com/v1/forecast?latitude=${lats}&longitude=${lons}`+
+    `&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max`+
+    `&current=temperature_2m,weather_code&timezone=America%2FEdmonton&forecast_days=16`;
+  try{
+    const res=await fetch(url); const data=await res.json();
+    const arr=Array.isArray(data)?data:[data];
+    // Banner: current at basecamp (day 0 / Canmore)
+    const now=arr[0]?.current;
+    if(now){const [em,txt]=wmo(now.weather_code);
+      document.getElementById("wxNow").innerHTML=
+        `<span class="emoji">${em}</span><span>Canmore now · <b>${Math.round(now.temperature_2m)}°C</b> · ${txt}</span>`;}
+    // Per-day
+    TRIP.forEach((d,i)=>{
+      const day=arr[i]?.daily; if(!day) return;
+      const idx=day.time.indexOf(d.iso);
+      d.wx = idx>=0 ? {
+        code:day.weather_code[idx], hi:Math.round(day.temperature_2m_max[idx]),
+        lo:Math.round(day.temperature_2m_min[idx]), pop:day.precipitation_probability_max[idx]
+      } : null;
+      d.wxLoaded=true;
+    });
+    renderDay(active);
+  }catch(e){
+    document.getElementById("wxNow").innerHTML=`<span class="emoji">🌐</span><span>Weather unavailable offline</span>`;
+  }
+}
+
+// ---------- Render ----------
+function wxBox(d){
+  if(!d.wxLoaded) return `<div class="wx-day pending"><div class="em">⏳</div><div class="soon">loading…</div></div>`;
+  if(!d.wx) return `<div class="wx-day pending"><div class="em">🔮</div><div class="soon">forecast unlocks ~16 days out</div></div>`;
+  const [em]=wmo(d.wx.code);
+  return `<div class="wx-day"><div class="em">${em}</div><div class="hi">${d.wx.hi}°</div>`+
+    `<div class="lo">low ${d.wx.lo}°</div>`+(d.wx.pop!=null?`<div class="pop">💧${d.wx.pop}%</div>`:``)+`</div>`;
+}
+function renderTabs(){
+  const t=document.getElementById("tabs");
+  const todayIso=new Date().toISOString().slice(0,10);
+  t.innerHTML=TRIP.map((d,i)=>
+    `<button class="tab ${i===active?'active':''} ${d.iso===todayIso?'today':''}" data-i="${i}">
+      <span class="dow">${d.dow}</span><span class="dt">${d.date}</span></button>`).join("");
+  t.querySelectorAll(".tab").forEach(b=>b.onclick=()=>select(+b.dataset.i));
+  const a=t.querySelector(".tab.active"); if(a) a.scrollIntoView({inline:"center",block:"nearest",behavior:"smooth"});
+}
+function renderDay(i){
+  const d=TRIP[i];
+  const items=d.items.map((it,n)=>{
+    const stats=[it.dist&&`<span class="pill b">📏 ${it.dist}</span>`,it.dur&&`<span class="pill">⏱️ ${it.dur}</span>`].filter(Boolean).join("");
+    const trail=it.trail?`<a class="trail" href="${it.trail}" target="_blank" rel="noopener">🥾 AllTrails ↗</a>`:"";
+    return `<div class="item ${it.kind}" style="animation-delay:${n*45}ms">
+      <div class="ic">${ICONS[it.kind]||"✨"}</div>
+      <div class="body">
+        ${it.time?`<div class="time">${it.time}</div>`:""}
+        <div class="ttl">${it.title}</div>
+        ${it.desc?`<div class="desc">${it.desc}</div>`:""}
+        ${stats?`<div class="pills">${stats}</div>`:""}
+        ${trail}
+      </div></div>`;
+  }).join("");
+  document.getElementById("dayView").innerHTML=
+    `<div class="day" key="${i}">
+      <div class="day-head">
+        <div><div class="day-meta">DAY ${i+1} · ${d.dow} · ${d.date}</div>
+          <h2>${d.emoji} ${d.title}</h2></div>
+        ${wxBox(d)}
+      </div>
+      <div class="timeline">${items}</div>
+    </div>`;
+  // nav labels
+  const prev=TRIP[i-1], next=TRIP[i+1];
+  const pb=document.getElementById("prevBtn"), nb=document.getElementById("nextBtn");
+  pb.disabled=!prev; nb.disabled=!next;
+  pb.querySelector(".pdow").textContent=prev?prev.dow:"Start";
+  pb.querySelector(".pdate").textContent=prev?prev.date:"";
+  nb.querySelector(".ndow").textContent=next?next.dow:"End";
+  nb.querySelector(".ndate").textContent=next?next.date:"";
+  document.getElementById("progress").textContent=`Day ${i+1} of ${TRIP.length}`;
+}
+function select(i){
+  active=Math.max(0,Math.min(TRIP.length-1,i));
+  renderTabs(); renderDay(active);
+}
+
+// ---------- Countdown ----------
+function tick(){
+  const now=new Date(), diff=TRIP_START-now;
+  const cd=document.getElementById("countdown"), msg=document.getElementById("cdMsg");
+  if(diff<=0){
+    const end=new Date("2026-10-05T00:00:00-06:00");
+    cd.style.display="none";
+    msg.textContent = now<end ? "🎉 The adventure is happening RIGHT NOW!" : "🏔️ That was one for the books.";
+    return;
+  }
+  const d=Math.floor(diff/864e5), h=Math.floor(diff/36e5)%24, m=Math.floor(diff/6e4)%60, s=Math.floor(diff/1e3)%60;
+  const cell=(n,l)=>`<div class="cd-cell"><div class="cd-num">${String(n).padStart(2,"0")}</div><div class="cd-lbl">${l}</div></div>`;
+  cd.innerHTML=cell(d,"days")+cell(h,"hrs")+cell(m,"min")+cell(s,"sec");
+  msg.textContent=`⛰️ ${d} sleep${d===1?"":"s"} until the mountains!`;
+}
+
+// ---------- Theme ----------
+const tgl=document.getElementById("themeToggle");
+function setTheme(t){document.documentElement.dataset.theme=t;tgl.textContent=t==="dark"?"🌙":"☀️";localStorage.setItem("banff-theme",t);}
+tgl.onclick=()=>setTheme(document.documentElement.dataset.theme==="dark"?"light":"dark");
+setTheme(localStorage.getItem("banff-theme")||"dark");
+
+// ---------- Nav + swipe ----------
+document.getElementById("prevBtn").onclick=()=>select(active-1);
+document.getElementById("nextBtn").onclick=()=>select(active+1);
+document.addEventListener("keydown",e=>{if(e.key==="ArrowLeft")select(active-1);if(e.key==="ArrowRight")select(active+1);});
+let tx=0;
+const mv=document.getElementById("dayView");
+mv.addEventListener("touchstart",e=>tx=e.changedTouches[0].clientX,{passive:true});
+mv.addEventListener("touchend",e=>{const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>60)select(active+(dx<0?1:-1));},{passive:true});
+
+// ---------- Boot ----------
+// If trip is underway/upcoming, jump to today; else start at day 1.
+(function initDay(){
+  const todayIso=new Date().toISOString().slice(0,10);
+  const idx=TRIP.findIndex(d=>d.iso===todayIso);
+  active=idx>=0?idx:0;
+})();
+renderTabs(); renderDay(active); tick(); setInterval(tick,1000); loadWeather();
+</script>
+</body>
+</html>
