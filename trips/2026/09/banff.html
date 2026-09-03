@@ -201,7 +201,7 @@
 
   <footer>
     Built with 🥾 &amp; ☕ for the mountains · Weather by <a href="https://open-meteo.com" target="_blank" rel="noopener">Open-Meteo</a><br>
-    <a href="/PPTGenerator/SMONGenerator.html">🛠️ SMON tool</a>
+    <a href="../../../PPTGenerator/SMONGenerator.html">🛠️ SMON tool</a>
   </footer>
 </div>
 
@@ -308,6 +308,11 @@ const TRIP = [
 const ICONS={drive:"🚗",hike:"🥾",food:"🍽️",cafe:"☕",shop:"🛒",walk:"🚶",view:"🏔️",activity:"✨",tip:"💡",warning:"⚠️",decision:"🤔",gondola:"🚡",wake:"⏰",home:"🏠",plane:"✈️",stop:"⛽",lake:"🏞️"};
 const TRIP_START = new Date("2026-09-26T00:00:00-06:00");
 let active = 0;
+// iOS Universal Links (alltrails.com/trail/* opens the AllTrails app if installed)
+// fire reliably only on a same-tab navigation, so avoid target="_blank" there.
+const isIOS = /iP(hone|ad|od)/.test(navigator.userAgent) ||
+  (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+const TRAIL_TARGET = isIOS ? "_self" : "_blank";
 
 // ---------- Weather ----------
 function wmo(code){
@@ -343,7 +348,10 @@ async function loadWeather(){
       } : null;
       d.wxLoaded=true;
     });
-    renderDay(active);
+    // Update only the visible weather chip — re-rendering the whole day here
+    // would replay the intro animation and look like a page refresh.
+    const chip=document.querySelector("#dayView .wx-day");
+    if(chip) chip.outerHTML=wxBox(TRIP[active]);
   }catch(e){
     document.getElementById("wxNow").innerHTML=`<span class="emoji">🌐</span><span>Weather unavailable offline</span>`;
   }
@@ -370,7 +378,7 @@ function renderDay(i){
   const d=TRIP[i];
   const items=d.items.map((it,n)=>{
     const stats=[it.dist&&`<span class="pill b">📏 ${it.dist}</span>`,it.dur&&`<span class="pill">⏱️ ${it.dur}</span>`].filter(Boolean).join("");
-    const trail=it.trail?`<a class="trail" href="${it.trail}" target="_blank" rel="noopener">🥾 AllTrails ↗</a>`:"";
+    const trail=it.trail?`<a class="trail" href="${it.trail}" target="${TRAIL_TARGET}" rel="noopener">🥾 AllTrails ↗</a>`:"";
     return `<div class="item ${it.kind}" style="animation-delay:${n*45}ms">
       <div class="ic">${ICONS[it.kind]||"✨"}</div>
       <div class="body">
@@ -400,9 +408,22 @@ function renderDay(i){
   nb.querySelector(".ndate").textContent=next?next.date:"";
   document.getElementById("progress").textContent=`Day ${i+1} of ${TRIP.length}`;
 }
+function scrollToDay(){
+  // Can't anchor to the sticky tabs (they're already pinned at top:0, so
+  // scrollIntoView no-ops). Instead scroll the day content into view and let
+  // scroll-margin-top reserve space for the sticky bar — no offset math.
+  const view=document.getElementById("dayView");
+  view.style.scrollMarginTop=document.getElementById("tabs").offsetHeight+"px";
+  view.scrollIntoView({behavior:"smooth",block:"start"});
+}
+function updateURL(){
+  // Short, index-based deep link, e.g. ?i=0 for day 1. replaceState keeps
+  // refresh on the same day without cluttering history.
+  try{ history.replaceState(null,"","?i="+active); }catch(e){}
+}
 function select(i){
   active=Math.max(0,Math.min(TRIP.length-1,i));
-  renderTabs(); renderDay(active);
+  renderTabs(); renderDay(active); scrollToDay(); updateURL();
 }
 
 // ---------- Countdown ----------
@@ -437,13 +458,15 @@ mv.addEventListener("touchstart",e=>tx=e.changedTouches[0].clientX,{passive:true
 mv.addEventListener("touchend",e=>{const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>60)select(active+(dx<0?1:-1));},{passive:true});
 
 // ---------- Boot ----------
-// If trip is underway/upcoming, jump to today; else start at day 1.
+// Priority: ?i= param → today (if in trip) → day 1.
 (function initDay(){
+  const p=parseInt(new URLSearchParams(location.search).get("i"),10);
+  if(Number.isInteger(p)&&p>=0&&p<TRIP.length){active=p;return;}
   const todayIso=new Date().toISOString().slice(0,10);
   const idx=TRIP.findIndex(d=>d.iso===todayIso);
   active=idx>=0?idx:0;
 })();
-renderTabs(); renderDay(active); tick(); setInterval(tick,1000); loadWeather();
+renderTabs(); renderDay(active); updateURL(); tick(); setInterval(tick,1000); loadWeather();
 </script>
 </body>
 </html>
