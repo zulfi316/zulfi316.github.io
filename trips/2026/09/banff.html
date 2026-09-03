@@ -153,6 +153,22 @@
   }
   .trail:active{transform:scale(.96)}
 
+  .flight-alert{
+    display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:16px;
+    padding:14px 16px;border-radius:var(--radius-lg);font-weight:600;
+    background:linear-gradient(135deg,rgba(232,176,75,.24),rgba(63,182,168,.18));
+    border:1px solid rgba(232,176,75,.5);animation:rise .5s var(--ease) both
+  }
+  .flight-alert .fa-em{font-size:1.4rem;line-height:1}
+  .flight-alert .fa-txt{flex:1;min-width:0}
+  .flight-alert .fa-sub{display:block;font-weight:500;color:var(--text-dim);font-size:.82rem}
+  .flight-alert a{
+    text-decoration:none;background:var(--surface);border:1px solid var(--border);
+    border-radius:999px;padding:7px 14px;font-size:.82rem;font-weight:700;
+    color:var(--gold-soft);white-space:nowrap;transition:transform .2s var(--ease)
+  }
+  .flight-alert a:active{transform:scale(.96)}
+
   .navrow{display:flex;justify-content:space-between;gap:12px;margin-top:6px}
   .navbtn{
     flex:1;border:1px solid var(--border);background:var(--surface);color:var(--text);
@@ -211,7 +227,7 @@ const TRIP = [
   { dow:"SAT", date:"Sept 26", iso:"2026-09-26", emoji:"🛬", title:"Arrival → Harvie Heights → Canmore",
     loc:{name:"Canmore", lat:51.089, lon:-115.359},
     items:[
-      {kind:"plane", time:"10:00 → 12:20", title:"Flight F8623 · YYZ → YYC", desc:"Toronto Pearson → Calgary. Boeing 737-8 MAX."},
+      {kind:"plane", time:"10:00 → 12:20", title:"Flight F8623 · YYZ → YYC", desc:"Toronto Pearson → Calgary. Boeing 737-8 MAX.", track:"https://www.flightradar24.com/data/flights/f8623"},
       {kind:"drive", title:"Calgary Airport → Harvie Heights", dur:"1h 15–30m"},
       {kind:"shop", title:"Royal Indian Supermarket & Kitchen, Calgary", desc:"Stock up on breakfast + hiking supplies for the next few days."},
       {kind:"walk", title:"Wander downtown Canmore"},
@@ -302,7 +318,7 @@ const TRIP = [
   { dow:"SUN", date:"Oct 4", iso:"2026-10-04", emoji:"✈️", title:"Go Home",
     loc:{name:"Calgary", lat:51.045, lon:-114.057},
     items:[
-      {kind:"plane", time:"13:20 → 19:15", title:"Flight F8622 · YYC → YYZ", desc:"Calgary → Toronto Pearson. Boeing 737-8 MAX. Just memories (and probably sore legs)."},
+      {kind:"plane", time:"13:20 → 19:15", title:"Flight F8622 · YYC → YYZ", desc:"Calgary → Toronto Pearson. Boeing 737-8 MAX. Just memories (and probably sore legs).", track:"https://www.flightradar24.com/data/flights/f8622"},
     ]},
 ];
 
@@ -380,6 +396,7 @@ function renderDay(i){
   const items=d.items.map((it,n)=>{
     const stats=[it.dist&&`<span class="pill b">📏 ${it.dist}</span>`,it.dur&&`<span class="pill">⏱️ ${it.dur}</span>`].filter(Boolean).join("");
     const trail=it.trail?`<a class="trail" href="${it.trail}" target="${TRAIL_TARGET}" rel="noopener">🥾 AllTrails ↗</a>`:"";
+    const track=it.track?`<a class="trail" href="${it.track}" target="_blank" rel="noopener">🛰️ Live status ↗</a>`:"";
     return `<div class="item ${it.kind}" style="animation-delay:${n*45}ms">
       <div class="ic">${ICONS[it.kind]||"✨"}</div>
       <div class="body">
@@ -387,9 +404,18 @@ function renderDay(i){
         <div class="ttl">${it.title}</div>
         ${it.desc?`<div class="desc">${it.desc}</div>`:""}
         ${stats?`<div class="pills">${stats}</div>`:""}
-        ${trail}
+        ${trail}${track}
       </div></div>`;
   }).join("");
+  // Flight-day callout: only when the loaded date is this day's flight day.
+  const flight=d.items.find(it=>it.kind==="plane"&&it.track);
+  const isToday=d.iso===new Date().toISOString().slice(0,10);
+  const flightAlert=(flight&&isToday)?
+    `<div class="flight-alert"><span class="fa-em">✈️</span>
+       <span class="fa-txt">Flight day — safe travels!
+         <span class="fa-sub">Tap for today's live departure/arrival status.</span></span>
+       <a href="${flight.track}" target="_blank" rel="noopener">Live status ↗</a>
+     </div>`:"";
   document.getElementById("dayView").innerHTML=
     `<div class="day" key="${i}">
       <div class="day-head">
@@ -397,6 +423,7 @@ function renderDay(i){
           <h2>${d.emoji} ${d.title}</h2></div>
         ${wxBox(d)}
       </div>
+      ${flightAlert}
       <div class="timeline">${items}</div>
     </div>`;
   // nav labels
