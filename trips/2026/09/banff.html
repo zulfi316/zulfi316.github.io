@@ -256,7 +256,7 @@ const TRIP = [
       {kind:"home", time:"12:30", title:"Back to the Airbnb + lunch"},
       {kind:"drive", time:"~15:30", title:"Head to Banff Gondola"},
       {kind:"warning", title:"Gondola parking is limited", desc:"Figure this out ahead of time. #TODO"},
-      {kind:"gondola", time:"16:00–18:30", title:"Banff Gondola", desc:"Ride up → summit boardwalk → viewpoints → soak in the mountains."},
+      {kind:"gondola", time:"16:00–18:30", title:"Banff Gondola", desc:"Ride up → summit boardwalk → viewpoints → soak in the mountains.", link:"https://www.banffjaspercollection.com/attractions/banff-gondola/tickets/", linkLabel:"🎟️ Buy tickets ↗"},
       {kind:"food", time:"Dinner", title:"Mumbai Local Indian Cuisine"},
     ]},
   { dow:"TUE", date:"Sept 29", iso:"2026-09-29", emoji:"🛣️", title:"Icefields Parkway Road Trip",
@@ -397,6 +397,7 @@ function renderDay(i){
     const stats=[it.dist&&`<span class="pill b">📏 ${it.dist}</span>`,it.dur&&`<span class="pill">⏱️ ${it.dur}</span>`].filter(Boolean).join("");
     const trail=it.trail?`<a class="trail" href="${it.trail}" target="${TRAIL_TARGET}" rel="noopener">🥾 AllTrails ↗</a>`:"";
     const track=it.track?`<a class="trail" href="${it.track}" target="_blank" rel="noopener">🛰️ Live status ↗</a>`:"";
+    const link=it.link?`<a class="trail" href="${it.link}" target="_blank" rel="noopener">${it.linkLabel||"Open ↗"}</a>`:"";
     return `<div class="item ${it.kind}" style="animation-delay:${n*45}ms">
       <div class="ic">${ICONS[it.kind]||"✨"}</div>
       <div class="body">
@@ -404,7 +405,7 @@ function renderDay(i){
         <div class="ttl">${it.title}</div>
         ${it.desc?`<div class="desc">${it.desc}</div>`:""}
         ${stats?`<div class="pills">${stats}</div>`:""}
-        ${trail}${track}
+        ${trail}${track}${link}
       </div></div>`;
   }).join("");
   // Flight-day callout: only when the loaded date is this day's flight day.
