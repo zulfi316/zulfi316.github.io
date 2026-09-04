@@ -480,10 +480,16 @@ setTheme(localStorage.getItem("banff-theme")||"dark");
 document.getElementById("prevBtn").onclick=()=>select(active-1);
 document.getElementById("nextBtn").onclick=()=>select(active+1);
 document.addEventListener("keydown",e=>{if(e.key==="ArrowLeft")select(active-1);if(e.key==="ArrowRight")select(active+1);});
-let tx=0;
+let tx=0, ty=0;
 const mv=document.getElementById("dayView");
-mv.addEventListener("touchstart",e=>tx=e.changedTouches[0].clientX,{passive:true});
-mv.addEventListener("touchend",e=>{const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>60)select(active+(dx<0?1:-1));},{passive:true});
+mv.addEventListener("touchstart",e=>{tx=e.changedTouches[0].clientX;ty=e.changedTouches[0].clientY;},{passive:true});
+mv.addEventListener("touchend",e=>{
+  const dx=e.changedTouches[0].clientX-tx, dy=e.changedTouches[0].clientY-ty;
+  // Only count as a day-swipe when it's clearly horizontal: a large sideways
+  // move that also dominates any vertical movement — so scrolling the list
+  // (mostly vertical) never flips the day.
+  if(Math.abs(dx)>90 && Math.abs(dx)>Math.abs(dy)*2) select(active+(dx<0?1:-1));
+},{passive:true});
 
 // ---------- Boot ----------
 // Priority: ?i= param → today (if in trip) → day 1.
